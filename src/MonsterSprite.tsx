@@ -67,7 +67,9 @@ function MonsterSprite({ uuid, x, xi, y, dir, hp, sprite }: MonsterSpriteProps) 
   const body = (
     <img
       ref={bodyImgRef}
-      className="relative z-[0] max-w-none scale-[4] origin-bottom"
+      className={`relative z-[0] max-w-none origin-bottom transition-all duration-700 ${
+        hp > 0 ? 'scale-[4]' : 'scale-x-[4] scale-y-0'
+      }`}
       src={spriteSrc}
       onLoad={() => {
         const bodyImg = bodyImgRef.current!
@@ -79,9 +81,9 @@ function MonsterSprite({ uuid, x, xi, y, dir, hp, sprite }: MonsterSpriteProps) 
 
   return (
     <div
-      className={`relative origin-bottom ${
-        hp > 0 ? 'animate-breathe' : 'opacity-0 grayscale'
-      } transition-opacity duration-[1500ms] pointer-events-none ${'text-[0]' /* inline-block fix */}`}
+      className={`relative origin-bottom animate-breathe ${
+        hp <= 0 && 'opacity-0 grayscale'
+      } transition-opacity duration-700 pointer-events-none ${'text-[0]' /* inline-block fix */}`}
       style={{ animationDelay: `${breatheDelay}s` }}
     >
       <div ref={dirRef}>{body}</div>

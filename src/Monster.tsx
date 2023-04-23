@@ -3,14 +3,15 @@ import { useEffect, useRef } from 'react'
 import { usePrevious } from 'react-use'
 import { animationPaths, bodyMovementTransition, playAnimation } from './Animations'
 import MonsterSprite, { translateX, translateY } from './MonsterSprite'
-import { playSound } from './audio'
+import { playSound, sleepSoundChoices } from './audio'
 import { TILE_PX } from './consts'
 import { PhysicalBody } from './types'
+import { pickRandom } from './utils'
 
 type MonsterProps = PhysicalBody
 
 function Monster(props: MonsterProps) {
-  const { x, xi, y, moveSpeed, zIndex, dir, hp, attackTimestamp } = props
+  const { x, xi, y, moveSpeed, dir, hp, attackTimestamp } = props
 
   const oldX = usePrevious(x) ?? x
   const oldXi = usePrevious(xi) ?? xi
@@ -22,6 +23,7 @@ function Monster(props: MonsterProps) {
 
   const movingDown = y > oldY
   const movingHorizontally = x !== oldX || xi !== oldXi || dir !== oldDir
+  const fellAsleep = oldHP > 0 && hp <= 0
 
   const onJump = () => {
     playSound('jump', { volume: 0.1 })
@@ -30,7 +32,7 @@ function Monster(props: MonsterProps) {
   const onLand = () => {
     playSound('land', { volume: 0.1 })
     playAnimation(
-      <div className="relative w-48 h-12 -translate-y-6 overflow-hidden">
+      <div className="relative w-48 h-12 overflow-hidden -translate-y-6">
         <img
           className="absolute w-24 h-24 max-w-none grayscale contrast-200 translate-x-[8px] -scale-x-100"
           src={animationPaths.move}
@@ -137,9 +139,13 @@ function Monster(props: MonsterProps) {
     }
   }, [movingHorizontally])
 
+  useEffect(() => {
+    if (fellAsleep) playSound(pickRandom(sleepSoundChoices)!)
+  }, [fellAsleep])
+
   return (
-    <div ref={xyRef} className="absolute w-0 h-0 left-0 top-0 z-10">
-      <div ref={jumpRef} className="w-0 h-0 left-0 top-0 flex justify-center items-end">
+    <div ref={xyRef} className="absolute top-0 left-0 z-10 w-0 h-0">
+      <div ref={jumpRef} className="top-0 left-0 flex items-end justify-center w-0 h-0">
         <MonsterSprite {...props} />
       </div>
     </div>

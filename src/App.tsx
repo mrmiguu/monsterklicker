@@ -26,7 +26,7 @@ function App() {
   const level = getLevelByEXP(exp)
   const map = floor(level / 7)
 
-  const randomByMap = useMemo(() => randomGenerator(map), [map])
+  const randomByMap = useMemo(() => randomGenerator(`map-${map}`), [map])
 
   const background = useMemo(() => pickRandom(backgroundChoices, randomByMap)!, [randomByMap])
   const backgroundSrc = useBackground(background)
@@ -92,7 +92,7 @@ function App() {
 
           if (hp <= 0) {
             storeEXP(exp => exp + getEXPFromMonster(monsterMetadata))
-            sleep(1500).then(clearMonster)
+            sleep(700).then(clearMonster)
           }
         }
 

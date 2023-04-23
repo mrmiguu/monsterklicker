@@ -12,6 +12,11 @@ const pathBySound = {
   attack: './assets/audio/sounds/attack.wav',
   attackCritical: './assets/audio/sounds/attack-critical.wav',
   levelUp: './assets/audio/sounds/level-up.wav',
+  sleep1: './assets/audio/sounds/sleep1.wav',
+  sleep2: './assets/audio/sounds/sleep2.wav',
+  sleep3: './assets/audio/sounds/sleep3.wav',
+  sleep4: './assets/audio/sounds/sleep4.wav',
+  sleep5: './assets/audio/sounds/sleep5.wav',
 } as const
 
 const pathByMusic = {
@@ -142,6 +147,7 @@ type Sound = keyof typeof pathBySound
 type Music = keyof typeof pathByMusic
 type Audio = Sound | Music
 
+const sleepSoundChoices = ['sleep1', 'sleep2', 'sleep3', 'sleep4', 'sleep5'] as Sound[]
 const musicChoices = keys(pathByMusic) as Music[]
 
 type Options = {
@@ -209,4 +215,4 @@ function playMusic(music: Music, { loop = true, ...options }: Partial<Options> =
 }
 
 export type { Sound, Music, Audio }
-export { musicChoices, getAudio, playSound, playMusic }
+export { sleepSoundChoices, musicChoices, getAudio, playSound, playMusic }
