@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Pixelade;
+  src: url(./assets/fonts/pixelade/PIXELADE.TTF);
+}
+
+@font-face {
+  font-family: _04b_30;
+  src: url(./assets/fonts/04b_30.ttf);
+}
+
+html {
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:not(input) {
+  user-select: none;
+}
+
+* {
+  image-rendering: pixelated;
+}
+
+.toaster * {
+  pointer-events: none;
+}
